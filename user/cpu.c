@@ -35,7 +35,7 @@ void beepOn_Off(u8 state)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
-	if(state == ON)
+	if(state == ENABLE)
 	{
 		GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_8;
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
@@ -47,7 +47,7 @@ void beepOn_Off(u8 state)
 		// 主输出使能，当使用的是通用定时器时，这句不需要
 		TIM_CtrlPWMOutputs(TIM1, ENABLE);
 	}
-	else if(state == OFF)
+	else if(state == DISABLE)
 	{
 		GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_8;
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -90,6 +90,8 @@ void initCpu(void)
 	RTC_Init();
 	gpioInit();
 	USART_Config();
+	dacInit();
+	ADCx_Init();
 }
 
 

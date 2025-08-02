@@ -422,14 +422,14 @@
               <FilePath>.\cpu.c</FilePath>
             </File>
             <File>
-              <FileName>dataconfig.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\dataconfig.h</FilePath>
-            </File>
-            <File>
               <FileName>FreeRTOSConfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\FreeRTOSConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>include.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\include.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -605,6 +605,16 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\hardware\gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\hardware\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>dac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\hardware\dac.c</FilePath>
             </File>
           </Files>
         </Group>

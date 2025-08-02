@@ -31,10 +31,12 @@
 .\objects\main.o: cpu.h
 .\objects\main.o: ..\hardware\tim.h
 .\objects\main.o: ..\hardware\rtc.h
-.\objects\main.o: dataconfig.h
+.\objects\main.o: include.h
 .\objects\main.o: ..\hardware\gpio.h
 .\objects\main.o: ..\hardware\uart.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: ..\hardware\dac.h
+.\objects\main.o: ..\hardware\adc.h
 .\objects\main.o: ..\rtos\include\FreeRTOS.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\main.o: ..\user\FreeRTOSConfig.h
@@ -45,3 +47,6 @@
 .\objects\main.o: ..\rtos\include\mpu_wrappers.h
 .\objects\main.o: ..\rtos\include\task.h
 .\objects\main.o: ..\rtos\include\list.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h

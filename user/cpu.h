@@ -4,9 +4,11 @@
 #include "stm32f10x.h"
 #include "tim.h"
 #include "rtc.h"
-#include "dataconfig.h"
+#include "include.h"
 #include "gpio.h"
 #include "uart.h"
+#include "dac.h"
+#include "adc.h"
 
 
 

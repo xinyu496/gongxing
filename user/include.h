@@ -4,14 +4,6 @@
 
 
 
-typedef enum
-{
-  OFF = 0,
-  ON = !OFF
-}
-bool;
-
-
 #endif
 
 

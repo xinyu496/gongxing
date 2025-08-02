@@ -29,10 +29,12 @@
 .\objects\stm32f10x_it.o: ..\lib\inc\stm32f10x_usart.h
 .\objects\stm32f10x_it.o: ..\lib\inc\stm32f10x_wwdg.h
 .\objects\stm32f10x_it.o: ..\lib\inc\misc.h
-.\objects\stm32f10x_it.o: dataconfig.h
+.\objects\stm32f10x_it.o: include.h
 .\objects\stm32f10x_it.o: cpu.h
 .\objects\stm32f10x_it.o: ..\hardware\tim.h
 .\objects\stm32f10x_it.o: ..\hardware\rtc.h
 .\objects\stm32f10x_it.o: ..\hardware\gpio.h
 .\objects\stm32f10x_it.o: ..\hardware\uart.h
 .\objects\stm32f10x_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\stm32f10x_it.o: ..\hardware\dac.h
+.\objects\stm32f10x_it.o: ..\hardware\adc.h

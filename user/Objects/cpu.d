@@ -31,7 +31,9 @@
 .\objects\cpu.o: ..\lib\inc\misc.h
 .\objects\cpu.o: ..\hardware\tim.h
 .\objects\cpu.o: ..\hardware\rtc.h
-.\objects\cpu.o: dataconfig.h
+.\objects\cpu.o: include.h
 .\objects\cpu.o: ..\hardware\gpio.h
 .\objects\cpu.o: ..\hardware\uart.h
 .\objects\cpu.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\cpu.o: ..\hardware\dac.h
+.\objects\cpu.o: ..\hardware\adc.h

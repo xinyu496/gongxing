@@ -32,6 +32,8 @@
 ".\objects\rtc.o"
 ".\objects\uart.o"
 ".\objects\gpio.o"
+".\objects\adc.o"
+".\objects\dac.o"
 ".\objects\heap_4.o"
 ".\objects\port.o"
 ".\objects\croutine.o"

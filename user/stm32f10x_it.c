@@ -25,13 +25,15 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
-#include "dataconfig.h"
+#include "include.h"
 #include "cpu.h"
 
-
+/* 用于统计运行时间 */
+volatile uint32_t CPU_RunTime = 0UL;
 static u8 time;
 
 u16 p_CNT_1s;
+extern __IO uint16_t ADC_ConvertedValue;
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -188,6 +190,16 @@ void SysTick_Handler(void)
     #if (INCLUDE_xTaskGetSchedulerState  == 1 )
       }
     #endif  /* INCLUDE_xTaskGetSchedulerState */
+}
+
+void ADC1_2_IRQHandler(void)
+{	
+	if (ADC_GetITStatus(ADC2,ADC_IT_EOC)==SET) 
+	{
+		// 读取ADC的转换值
+		ADC_ConvertedValue = ADC_GetConversionValue(ADC2);
+	}
+	ADC_ClearITPendingBit(ADC2,ADC_IT_EOC);
 }
 
 
