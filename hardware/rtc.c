@@ -12,7 +12,7 @@ void RTC_Init(void) {
     PWR_BackupAccessCmd(ENABLE);
     
     // 检查是否为首次配置
-    if (BKP_ReadBackupRegister(BKP_DR1) != 0xA5A7) {
+    if (BKP_ReadBackupRegister(BKP_DR1) != 0xA5A9) {
         // 1. 复位备份区域
         BKP_DeInit();
         
@@ -35,13 +35,13 @@ void RTC_Init(void) {
 //        RTC_SetCounter(946684800); // 2000-01-01 00:00:00基准的秒数
 			
 
-			DateTime init_dt = {0, 37, 18, 1, 8, 2025, 7}; // 2023-01-01 12:00:00 周日
+			DateTime init_dt = {0, 1, 10, 2, 8, 2025, 7}; // 2023-01-01 12:00:00 周日
 			RTC_SetDateTime(&init_dt);
 			
         RTC_WaitForLastTask();
         
         // 标记已初始化
-        BKP_WriteBackupRegister(BKP_DR1, 0xA5A7);
+        BKP_WriteBackupRegister(BKP_DR1, 0xA5A9);
     } else {
         // 等待同步
         RTC_WaitForSynchro();

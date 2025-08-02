@@ -1,7 +1,7 @@
 #include "stm32f10x.h"
 #include "cpu.h"
 
-
+DateTime p_clock;
 
 int main(void)
 {
@@ -10,7 +10,7 @@ int main(void)
 //	{
 //		
 //	}
-	DateTime dt;
+
 
 	initCpu();
 	setOriginDate();//设置初始时间；仅第一次使用
@@ -18,7 +18,7 @@ int main(void)
 
 	
 	while (1) {
-			RTC_GetDateTime(&dt);
+			RTC_GetDateTime(&p_clock);
 	}
 }
 
