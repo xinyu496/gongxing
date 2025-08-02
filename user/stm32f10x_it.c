@@ -30,7 +30,7 @@
 
 
 static u8 time;
-bool p_state1;
+
 u16 p_CNT_1s;
 
 /** @addtogroup STM32F10x_StdPeriph_Template
@@ -150,8 +150,8 @@ void  TIM6_IRQHandler(void)
 		{
 			time = 0;
 			p_CNT_1s++;
-			p_state1 =! p_state1;
-			beepOn_Off(p_state1);
+			
+			
 		}
 		TIM_ClearITPendingBit(TIM6 , TIM_FLAG_Update);  		 
 	}		 	

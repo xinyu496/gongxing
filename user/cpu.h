@@ -10,7 +10,7 @@
 
 
 
-void beepOn_Off(bool state);
+void beepOn_Off(u8 state);
 void initCpu(void);
 
 

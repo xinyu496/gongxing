@@ -66,9 +66,9 @@ static void timConfigBeep(void)
 //  TIM_BDTRConfig(ADVANCE_TIM, &TIM_BDTRInitStructure);
 	
 	// 使能计数器
-	TIM_Cmd(TIM1, ENABLE);	
+	TIM_Cmd(TIM1, 		DISABLE);	
 	// 主输出使能，当使用的是通用定时器时，这句不需要
-	TIM_CtrlPWMOutputs(TIM1, ENABLE);
+	TIM_CtrlPWMOutputs(TIM1, DISABLE);
 }
 
 //蜂鸣器io配置
@@ -104,7 +104,7 @@ static void timGpioInitBeep(GPIOMode_TypeDef data)
 void timInit(void)
 {
 	timConfigBeep();//蜂鸣器定时器
-	timGpioInitBeep(GPIO_Mode_AF_PP);//蜂鸣器IO
+	timGpioInitBeep(GPIO_Mode_Out_PP);//蜂鸣器IO
 	
 	timConfig_10ms();//10ms定时器
 }

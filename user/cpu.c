@@ -31,7 +31,7 @@ static void periphClockInit(void)
 
 
 //控制蜂鸣器开关
-void beepOn_Off(bool state)
+void beepOn_Off(u8 state)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
@@ -42,6 +42,10 @@ void beepOn_Off(bool state)
 		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 		
 		GPIO_Init(GPIOA, &GPIO_InitStructure);
+		// 使能计数器
+		TIM_Cmd(TIM1, 		ENABLE);	
+		// 主输出使能，当使用的是通用定时器时，这句不需要
+		TIM_CtrlPWMOutputs(TIM1, ENABLE);
 	}
 	else if(state == OFF)
 	{
@@ -50,6 +54,10 @@ void beepOn_Off(bool state)
 		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 		
 		GPIO_Init(GPIOA, &GPIO_InitStructure);
+		// 使能计数器
+		TIM_Cmd(TIM1, 		DISABLE);	
+		// 主输出使能，当使用的是通用定时器时，这句不需要
+		TIM_CtrlPWMOutputs(TIM1, DISABLE);
 	}
 }
 
@@ -83,6 +91,7 @@ void initCpu(void)
 	gpioInit();
 	USART_Config();
 }
+
 
 
 

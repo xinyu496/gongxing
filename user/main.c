@@ -11,6 +11,8 @@ static TaskHandle_t AppTaskCreate_Handle = NULL;
 static TaskHandle_t LED1_Task_Handle = NULL;
 /* LED2任务句柄 */
 static TaskHandle_t LED2_Task_Handle = NULL;
+/* beep任务句柄 */
+static TaskHandle_t beepTask_Handle = NULL;
 
 /**********************************************************************
   * @ 函数名  ： LED_Task
@@ -23,15 +25,19 @@ static void LED1_Task(void* parameter)
     while (1)
     {
 			
-				GPIO_ResetBits(GPIOB , GPIO_Pin_5);     
+				GPIO_ResetBits(GPIOB , GPIO_Pin_5);  
+					
         vTaskDelay(500);   /* 延时500个tick */		 		
         printf("LED1_Task Running,LED1_OFF\r\n");
 			
         GPIO_SetBits(GPIOB , GPIO_Pin_5);
+		
         vTaskDelay(500);   /* 延时500个tick */
         printf("LED1_Task Running,LED1_ON\r\n");
         
         
+			
+			
     }
 }
 
@@ -54,6 +60,34 @@ static void LED2_Task(void* parameter)
 				RTC_GetDateTime(&p_clockDisplay);
         vTaskDelay(500);   /* 延时500个tick */
         printf("LED2_Task Running,LED2_ON\r\n");
+        
+        
+    }
+}
+
+/**********************************************************************
+  * @ 函数名  ： beepTask
+  * @ 功能说明： beepTask任务主体
+  * @ 参数    ：   
+  * @ 返回值  ： 无
+  ********************************************************************/
+static void beepTask(void* parameter)
+{	
+    while (1)
+    {
+				beepOn_Off(1);		
+				vTaskDelay(100);
+				beepOn_Off(0);		
+				vTaskDelay(100);
+				beepOn_Off(1);		
+				vTaskDelay(100);
+				beepOn_Off(0);		
+				vTaskDelay(100);
+				beepOn_Off(1);		
+				vTaskDelay(100);
+				beepOn_Off(0);		
+				vTaskDelay(1000);
+			
         
         
     }
@@ -87,6 +121,16 @@ static void AppTaskCreate(void)
                         (void*          )NULL,	/* 任务入口函数参数 */
                         (UBaseType_t    )3,	    /* 任务的优先级 */
                         (TaskHandle_t*  )&LED2_Task_Handle);/* 任务控制块指针 */
+  if(pdPASS == xReturn)
+    printf("创建LED2_Task任务成功!\r\n");
+	
+	/* 创建LED_Task任务 */
+  xReturn = xTaskCreate((TaskFunction_t )beepTask, /* 任务入口函数 */
+                        (const char*    )"beepTask",/* 任务名字 */
+                        (uint16_t       )512,   /* 任务栈大小 */
+                        (void*          )NULL,	/* 任务入口函数参数 */
+                        (UBaseType_t    )3,	    /* 任务的优先级 */
+                        (TaskHandle_t*  )&beepTask_Handle);/* 任务控制块指针 */
   if(pdPASS == xReturn)
     printf("创建LED2_Task任务成功!\r\n");
   
