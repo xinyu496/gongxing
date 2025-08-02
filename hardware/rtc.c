@@ -169,17 +169,6 @@ void unix_to_datetime(uint32_t timestamp, DateTime *dt) {
 }
 
 
-// 设置初始时间（仅首次运行有效）& 获取并显示当前时间
-void setOriginDate(void)
-{
-	
-		
-	
-	
-
-			
-	
-}
 
 
 

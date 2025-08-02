@@ -24,6 +24,7 @@ static void periphClockInit(void)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6,ENABLE);//10ms定时器挂载时钟
 	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);//蜂鸣器Io挂载时钟
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);// LED Io挂载时钟
 }
 
 
@@ -79,6 +80,8 @@ void initCpu(void)
 	
 	timInit();//定时器初始化
 	RTC_Init();
+	gpioInit();
+	USART_Config();
 }
 
 

@@ -5,6 +5,8 @@
 #include "tim.h"
 #include "rtc.h"
 #include "dataconfig.h"
+#include "gpio.h"
+#include "uart.h"
 
 
 

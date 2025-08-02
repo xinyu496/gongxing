@@ -32,3 +32,16 @@
 .\objects\main.o: ..\hardware\tim.h
 .\objects\main.o: ..\hardware\rtc.h
 .\objects\main.o: dataconfig.h
+.\objects\main.o: ..\hardware\gpio.h
+.\objects\main.o: ..\hardware\uart.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: ..\rtos\include\FreeRTOS.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\main.o: ..\user\FreeRTOSConfig.h
+.\objects\main.o: ..\rtos\include\projdefs.h
+.\objects\main.o: ..\rtos\include\portable.h
+.\objects\main.o: ..\rtos\include\deprecated_definitions.h
+.\objects\main.o: ..\rtos\port\RVDS\ARM_CM3\portmacro.h
+.\objects\main.o: ..\rtos\include\mpu_wrappers.h
+.\objects\main.o: ..\rtos\include\task.h
+.\objects\main.o: ..\rtos\include\list.h

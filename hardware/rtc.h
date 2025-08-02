@@ -19,14 +19,14 @@ typedef struct {
 
 
 
-void setOriginDate(void);// 设置初始时间（仅首次运行有效）
+
 uint8_t calculate_weekday(uint16_t year, uint8_t month, uint8_t day);// 计算星期几（Zeller公式）
 uint8_t is_valid_date(DateTime *dt);// 日期合法性验证
 void unix_to_datetime(uint32_t timestamp, DateTime *dt) ;// 从Unix时间戳转换到日期时间
 
 uint8_t is_leap_year(uint16_t year);// 闰年判断（公历规则）return 1:run  0:gong
 
-void setOriginDate(void);// 设置初始时间（仅首次运行有效）& 获取并显示当前时间
+
 
 void RTC_Init(void) ;// RTC初始化
 

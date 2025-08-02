@@ -1,24 +1,127 @@
 #include "stm32f10x.h"
 #include "cpu.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
-DateTime p_clock;
+DateTime p_clockDisplay;
+
+ /* 创建任务句柄 */
+static TaskHandle_t AppTaskCreate_Handle = NULL;
+/* LED1任务句柄 */
+static TaskHandle_t LED1_Task_Handle = NULL;
+/* LED2任务句柄 */
+static TaskHandle_t LED2_Task_Handle = NULL;
+
+/**********************************************************************
+  * @ 函数名  ： LED_Task
+  * @ 功能说明： LED_Task任务主体
+  * @ 参数    ：   
+  * @ 返回值  ： 无
+  ********************************************************************/
+static void LED1_Task(void* parameter)
+{	
+    while (1)
+    {
+			
+				GPIO_ResetBits(GPIOB , GPIO_Pin_5);     
+        vTaskDelay(500);   /* 延时500个tick */		 		
+        printf("LED1_Task Running,LED1_OFF\r\n");
+			
+        GPIO_SetBits(GPIOB , GPIO_Pin_5);
+        vTaskDelay(500);   /* 延时500个tick */
+        printf("LED1_Task Running,LED1_ON\r\n");
+        
+        
+    }
+}
+
+/**********************************************************************
+  * @ 函数名  ： LED_Task
+  * @ 功能说明： LED_Task任务主体
+  * @ 参数    ：   
+  * @ 返回值  ： 无
+  ********************************************************************/
+static void LED2_Task(void* parameter)
+{	
+    while (1)
+    {
+			
+			GPIO_ResetBits(GPIOB , GPIO_Pin_0);     
+        vTaskDelay(500);   /* 延时500个tick */		 		
+        printf("LED2_Task Running,LED2_OFF\r\n");
+			
+        GPIO_SetBits(GPIOB , GPIO_Pin_0);
+				RTC_GetDateTime(&p_clockDisplay);
+        vTaskDelay(500);   /* 延时500个tick */
+        printf("LED2_Task Running,LED2_ON\r\n");
+        
+        
+    }
+}
+/***********************************************************************
+  * @ 函数名  ： AppTaskCreate
+  * @ 功能说明： 为了方便管理，所有的任务创建函数都放在这个函数里面
+  * @ 参数    ： 无  
+  * @ 返回值  ： 无
+  **********************************************************************/
+static void AppTaskCreate(void)
+{
+  BaseType_t xReturn = pdPASS;/* 定义一个创建信息返回值，默认为pdPASS */
+  
+  taskENTER_CRITICAL();           //进入临界区
+  
+  /* 创建LED_Task任务 */
+  xReturn = xTaskCreate((TaskFunction_t )LED1_Task, /* 任务入口函数 */
+                        (const char*    )"LED1_Task",/* 任务名字 */
+                        (uint16_t       )512,   /* 任务栈大小 */
+                        (void*          )NULL,	/* 任务入口函数参数 */
+                        (UBaseType_t    )2,	    /* 任务的优先级 */
+                        (TaskHandle_t*  )&LED1_Task_Handle);/* 任务控制块指针 */
+  if(pdPASS == xReturn)
+    printf("创建LED1_Task任务成功!\r\n");
+  
+	/* 创建LED_Task任务 */
+  xReturn = xTaskCreate((TaskFunction_t )LED2_Task, /* 任务入口函数 */
+                        (const char*    )"LED2_Task",/* 任务名字 */
+                        (uint16_t       )512,   /* 任务栈大小 */
+                        (void*          )NULL,	/* 任务入口函数参数 */
+                        (UBaseType_t    )3,	    /* 任务的优先级 */
+                        (TaskHandle_t*  )&LED2_Task_Handle);/* 任务控制块指针 */
+  if(pdPASS == xReturn)
+    printf("创建LED2_Task任务成功!\r\n");
+  
+  vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
+  
+  taskEXIT_CRITICAL();            //退出临界区
+}
+
+
+
+
 
 int main(void)
 {
-//	initCpu();
-//	while(1)
-//	{
-//		
-//	}
-
-
+	double xReturn = pdPASS;/* 定义一个创建信息返回值，默认为pdPASS */
+	char AD;
 	initCpu();
-	setOriginDate();//设置初始时间；仅第一次使用
+	
+	 /* 创建AppTaskCreate任务 */
+  xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate,  /* 任务入口函数 */
+                        (const char*    )"AppTaskCreate",/* 任务名字 */
+                        (uint16_t       )512,  /* 任务栈大小 */
+                        (void*          )NULL,/* 任务入口函数参数 */
+                        (UBaseType_t    )1, /* 任务的优先级 */
+                        (TaskHandle_t*  )&AppTaskCreate_Handle);/* 任务控制块指针 */ 
+												
+	  /* 启动任务调度 */           
+  if(pdPASS == xReturn)
+    vTaskStartScheduler();   /* 启动任务，开启调度 */
+  else
+    return -1; 											
 	
 
-	
 	while (1) {
-			RTC_GetDateTime(&p_clock);
+			AD = 1;
 	}
 }
 

@@ -3,66 +3,44 @@
 //中断定时器10ms
 static void timConfig_10ms(void)
 {
-	
-
-/*--------------------时基结构体初始化-------------------------*/
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-	// 自动重装载寄存器的值，累计TIM_Period+1个频率后产生一个更新或者中断
+
 	TIM_TimeBaseStructure.TIM_Period = 100 -1;	
-	// 驱动CNT计数器的时钟 = Fck_int/(psc+1)
 	TIM_TimeBaseStructure.TIM_Prescaler =  7200 -1;	
-	// 时钟分频因子 ，配置死区时间时需要用到
-	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;		
-	// 计数器计数模式，设置为向上计数
-	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up;		
-	// 重复计数器的值，没用到不用管
+	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;		// 时钟分频因子 ，配置死区时间时需要用到
+	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up;	//向上计数
 	TIM_TimeBaseStructure.TIM_RepetitionCounter=0;	
-	// 初始化定时器
+
 	TIM_TimeBaseInit(TIM6, &TIM_TimeBaseStructure);
 	
-	// 清除计数器中断标志位
-	TIM_ClearFlag(TIM6, TIM_FLAG_Update);
 	
-	// 开启计数器中断
-	TIM_ITConfig(TIM6,TIM_IT_Update,ENABLE);
-	
-	// 使能计数器
+	TIM_ClearFlag(TIM6, TIM_FLAG_Update);// 清除计数器中断标志位
+	TIM_ITConfig(TIM6,TIM_IT_Update,ENABLE);// 开启计数器中断
+
 	TIM_Cmd(TIM6, ENABLE);
 }
 
 //蜂鸣器定时器配置
 static void timConfigBeep(void)
 {
-  // 开启定时器时钟,即内部时钟CK_INT=72M
-	
-
-/*--------------------时基结构体初始化-------------------------*/
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-	// 自动重装载寄存器的值，累计TIM_Period+1个频率后产生一个更新或者中断
+
 	TIM_TimeBaseStructure.TIM_Period = 80 -1;	
-	// 驱动CNT计数器的时钟 = Fck_int/(psc+1)
 	TIM_TimeBaseStructure.TIM_Prescaler =  9 -1;	
-	// 时钟分频因子 ，配置死区时间时需要用到
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;		
-	// 计数器计数模式，设置为向上计数
 	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up;		
-	// 重复计数器的值，没用到不用管
 	TIM_TimeBaseStructure.TIM_RepetitionCounter=0;	
-	// 初始化定时器
 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
 
 	/*--------------------输出比较结构体初始化-------------------*/		
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
-	// 配置为PWM模式1
-	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-	// 输出使能
-	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+	
+	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;//PWM模式1
+	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;// 输出使能
 	// 互补输出使能
 //	TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Enable; 
-	// 设置占空比大小
-	TIM_OCInitStructure.TIM_Pulse = 7;
-	// 输出通道电平极性配置
-	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+	TIM_OCInitStructure.TIM_Pulse = 7;// 占空比
+	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;// 输出通道电平极性配置
 //	// 互补输出通道电平极性配置
 //	TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCNPolarity_High;
 	// 输出通道空闲电平极性配置

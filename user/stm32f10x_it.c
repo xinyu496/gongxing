@@ -109,14 +109,14 @@ void UsageFault_Handler(void)
   }
 }
 
-/**
-  * @brief  This function handles SVCall exception.
-  * @param  None
-  * @retval None
-  */
-void SVC_Handler(void)
-{
-}
+///**
+//  * @brief  This function handles SVCall exception.
+//  * @param  None
+//  * @retval None
+//  */
+//void SVC_Handler(void)
+//{
+//}
 
 /**
   * @brief  This function handles Debug Monitor exception.
@@ -127,23 +127,16 @@ void DebugMon_Handler(void)
 {
 }
 
-/**
-  * @brief  This function handles PendSVC exception.
-  * @param  None
-  * @retval None
-  */
-void PendSV_Handler(void)
-{
-}
+///**
+//  * @brief  This function handles PendSVC exception.
+//  * @param  None
+//  * @retval None
+//  */
+//void PendSV_Handler(void)
+//{
+//}
 
-/**
-  * @brief  This function handles SysTick Handler.
-  * @param  None
-  * @retval None
-  */
-void SysTick_Handler(void)
-{
-}
+
 
 
 
@@ -159,7 +152,6 @@ void  TIM6_IRQHandler(void)
 			p_CNT_1s++;
 			p_state1 =! p_state1;
 			beepOn_Off(p_state1);
-			setOriginDate();
 		}
 		TIM_ClearITPendingBit(TIM6 , TIM_FLAG_Update);  		 
 	}		 	
@@ -184,6 +176,19 @@ void  TIM6_IRQHandler(void)
 /**
   * @}
   */ 
+//systick中断服务函数
+extern void xPortSysTickHandler(void);
+void SysTick_Handler(void)
+{	
+    #if (INCLUDE_xTaskGetSchedulerState  == 1 )
+      if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
+      {
+    #endif  /* INCLUDE_xTaskGetSchedulerState */  
+        xPortSysTickHandler();
+    #if (INCLUDE_xTaskGetSchedulerState  == 1 )
+      }
+    #endif  /* INCLUDE_xTaskGetSchedulerState */
+}
 
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
