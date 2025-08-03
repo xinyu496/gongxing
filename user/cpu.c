@@ -92,6 +92,7 @@ void initCpu(void)
 	USART_Config();
 	dacInit();
 	ADCx_Init();
+
 }
 
 

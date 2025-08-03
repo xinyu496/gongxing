@@ -22,7 +22,7 @@ static TaskHandle_t CPU_Task_Handle = NULL;
 
 static TaskHandle_t dacTask_Handle = NULL;
 
-extern __IO uint16_t ADC_ConvertedValue[2];
+extern __IO uint32_t ADC_ConvertedValue;
 
 /**********************************************************************
   * @ 函数名  ： LED_Task
@@ -150,7 +150,8 @@ static void dacTask(void* parameter)
 		DAC_SetChannel1Data(DAC_Align_12b_R , data);
 		
 		printf("dacTask Running,LED1_OFF\r\n");
-		printf("dac value is%d",ADC_ConvertedValue[0]);
+		printf("dac value is%d\n",(u16)(ADC_ConvertedValue>>16));
+		printf("temp value is%d\n",(u16)(ADC_ConvertedValue));
 		vTaskDelay(1000);   /* 延时500个tick */		
 	}
 }
