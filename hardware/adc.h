@@ -10,9 +10,11 @@
 void ADCx_Init(void);
 
 
+u16 readTempertureValue(void);//读取单片机温度原始值
 
 
 
+u16 readAdc2Chennl(void);//读取ADC2通道6原始值
 
 
 

@@ -22,7 +22,7 @@ static TaskHandle_t CPU_Task_Handle = NULL;
 
 static TaskHandle_t dacTask_Handle = NULL;
 
-extern __IO uint32_t ADC_ConvertedValue;
+
 
 /**********************************************************************
   * @ 函数名  ： LED_Task
@@ -89,11 +89,11 @@ static void beepTask(void* parameter)
 				vTaskDelay(100);
 				beepOn_Off(0);		
 				vTaskDelay(100);
-				beepOn_Off(1);		
+//				beepOn_Off(1);		
 				vTaskDelay(100);
 				beepOn_Off(0);		
 				vTaskDelay(100);
-				beepOn_Off(1);		
+//				beepOn_Off(1);		
 				vTaskDelay(100);
 				beepOn_Off(0);		
 				vTaskDelay(3000);
@@ -138,6 +138,7 @@ static void CPU_Task(void* parameter)
 static void dacTask(void* parameter)
 {	
 	unsigned short data;
+	u16 temperture,adcvalue;
 	
 	while(1)
 	{
@@ -150,8 +151,13 @@ static void dacTask(void* parameter)
 		DAC_SetChannel1Data(DAC_Align_12b_R , data);
 		
 		printf("dacTask Running,LED1_OFF\r\n");
-		printf("dac value is%d\n",(u16)(ADC_ConvertedValue>>16));
-		printf("temp value is%d\n",(u16)(ADC_ConvertedValue));
+		
+		adcvalue = readAdc2Chennl();
+		printf("dac value is%d\n",adcvalue);//打印dac值
+		
+		temperture = readTempertureValue();
+		printf("temp value is %3d ℃\n",temperture);//打印温度值
+		
 		vTaskDelay(1000);   /* 延时500个tick */		
 	}
 }

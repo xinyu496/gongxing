@@ -1,7 +1,7 @@
 #include "adc.h"
 
 
-__IO uint32_t ADC_ConvertedValue;
+static uint32_t ADC_ConvertedValue;
 
 
 /**
@@ -93,6 +93,10 @@ static void ADCx_Mode_Config(void)
 	// 配置ADC 通道的转换顺序和采样时间
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_16, 1, 
 	                         ADC_SampleTime_239Cycles5);	
+													 
+													 //使能温度传感器和内部参考电压   
+  ADC_TempSensorVrefintCmd(ENABLE);     
+	
 	// 使能ADC DMA 请求
 	ADC_DMACmd(ADC1, ENABLE);
 	
@@ -175,10 +179,25 @@ void ADCx_Init(void)
 //	ADC_NVIC_Config();
 }
 
+//读取单片机温度原始值
+u16 readTempertureValue(void)
+{
+	u16 data;
+	
+	data = (0x06ee - (u16)(ADC_ConvertedValue)) / 0x05 + 25;
+	
+	return data;
+}
 
-
-
-
+//读取ADC2通道6原始值
+u16 readAdc2Chennl(void)
+{
+	u16 data;
+	
+	data = (u16)(ADC_ConvertedValue>>16);
+	
+	return data;
+}
 	
 
 

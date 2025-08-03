@@ -616,6 +616,16 @@
               <FileType>1</FileType>
               <FilePath>..\hardware\dac.c</FilePath>
             </File>
+            <File>
+              <FileName>iic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\hardware\iic.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\hardware\spi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

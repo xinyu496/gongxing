@@ -197,7 +197,7 @@ void ADC1_2_IRQHandler(void)
 	if (ADC_GetITStatus(ADC2,ADC_IT_EOC)==SET) 
 	{
 		// 读取ADC的转换值
-		ADC_ConvertedValue = ADC_GetConversionValue(ADC2);
+//		ADC_ConvertedValue = ADC_GetConversionValue(ADC2);
 	}
 	ADC_ClearITPendingBit(ADC2,ADC_IT_EOC);
 }

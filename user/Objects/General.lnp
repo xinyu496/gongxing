@@ -34,6 +34,8 @@
 ".\objects\gpio.o"
 ".\objects\adc.o"
 ".\objects\dac.o"
+".\objects\iic.o"
+".\objects\spi.o"
 ".\objects\heap_4.o"
 ".\objects\port.o"
 ".\objects\croutine.o"
