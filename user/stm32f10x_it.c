@@ -33,7 +33,7 @@ volatile uint32_t CPU_RunTime = 0UL;
 static u8 time;
 
 u16 p_CNT_1s;
-extern __IO uint16_t ADC_ConvertedValue;
+extern __IO uint16_t ADC_ConvertedValue[2];
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -197,7 +197,7 @@ void ADC1_2_IRQHandler(void)
 	if (ADC_GetITStatus(ADC2,ADC_IT_EOC)==SET) 
 	{
 		// 读取ADC的转换值
-		ADC_ConvertedValue = ADC_GetConversionValue(ADC2);
+		ADC_ConvertedValue[0] = ADC_GetConversionValue(ADC2);
 	}
 	ADC_ClearITPendingBit(ADC2,ADC_IT_EOC);
 }

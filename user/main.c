@@ -22,6 +22,8 @@ static TaskHandle_t CPU_Task_Handle = NULL;
 
 static TaskHandle_t dacTask_Handle = NULL;
 
+extern __IO uint16_t ADC_ConvertedValue[2];
+
 /**********************************************************************
   * @ 函数名  ： LED_Task
   * @ 功能说明： LED_Task任务主体
@@ -83,25 +85,27 @@ static void beepTask(void* parameter)
 {	
     while (1)
     {
-//				beepOn_Off(1);		
-//				vTaskDelay(100);
-//				beepOn_Off(0);		
-//				vTaskDelay(100);
-//				beepOn_Off(1);		
-//				vTaskDelay(100);
-//				beepOn_Off(0);		
-//				vTaskDelay(100);
-//				beepOn_Off(1);		
-//				vTaskDelay(100);
-//				beepOn_Off(0);		
-//				vTaskDelay(3000);
+				beepOn_Off(1);		
+				vTaskDelay(100);
+				beepOn_Off(0);		
+				vTaskDelay(100);
+				beepOn_Off(1);		
+				vTaskDelay(100);
+				beepOn_Off(0);		
+				vTaskDelay(100);
+				beepOn_Off(1);		
+				vTaskDelay(100);
+				beepOn_Off(0);		
+				vTaskDelay(3000);
+			
+				printf("beepTask Running,LED1_OFF\r\n");
     }
 }
 
 static void CPU_Task(void* parameter)
 {	
   uint8_t CPU_RunInfo[400];		//保存任务运行时间信息
-	unsigned short data;
+	
   
   while (1)
   {
@@ -123,13 +127,7 @@ static void CPU_Task(void* parameter)
     printf("%s", CPU_RunInfo);
     printf("---------------------------------------------\r\n\n");
 		
-		srand((unsigned int)xTaskGetTickCount());  // xTaskGetTickCount() 获取FreeRTOS系统时间
-
-  int random_num = rand() % 4096;  // 生成0-99的随机数
-	
-	data = (unsigned short)random_num;
-	
-	DAC_SetChannel1Data(DAC_Align_12b_R , data);
+		
 	
 
     vTaskDelay(1000);   /* 延时500个tick */		
@@ -140,21 +138,21 @@ static void CPU_Task(void* parameter)
 static void dacTask(void* parameter)
 {	
 	unsigned short data;
-//	// 1. 设置随机种子（只需一次）
-//  srand((unsigned int)time(NULL));
-//	
-//	// 示例1: 生成0到99的随机整数
-//  unsigned short int num1 = rand() % 4096;
 	
-	srand((unsigned int)xTaskGetTickCount());  // xTaskGetTickCount() 获取FreeRTOS系统时间
+	while(1)
+	{
+		srand((unsigned int)xTaskGetTickCount());  // xTaskGetTickCount() 获取FreeRTOS系统时间
 
-  int random_num = rand() % 4096;  // 生成0-99的随机数
-	
-	data = (unsigned short)random_num;
-	
-	DAC_SetChannel1Data(DAC_Align_12b_R , data);
-	
-	vTaskDelay(1000);   /* 延时1000个tick */		
+		int random_num = rand() % 4096;  // 生成0-99的随机数
+		
+		data = (unsigned short)random_num;
+		
+		DAC_SetChannel1Data(DAC_Align_12b_R , data);
+		
+		printf("dacTask Running,LED1_OFF\r\n");
+		printf("dac value is%d",ADC_ConvertedValue[0]);
+		vTaskDelay(1000);   /* 延时500个tick */		
+	}
 }
 /***********************************************************************
   * @ 函数名  ： AppTaskCreate
@@ -171,7 +169,7 @@ static void AppTaskCreate(void)
   /* 创建LED_Task任务 */
   xReturn = xTaskCreate((TaskFunction_t )LED1_Task, /* 任务入口函数 */
                         (const char*    )"LED1_Task",/* 任务名字 */
-                        (uint16_t       )256,   /* 任务栈大小 */
+                        (uint16_t       )512,   /* 任务栈大小 */
                         (void*          )NULL,	/* 任务入口函数参数 */
                         (UBaseType_t    )2,	    /* 任务的优先级 */
                         (TaskHandle_t*  )&LED1_Task_Handle);/* 任务控制块指针 */
@@ -191,7 +189,7 @@ static void AppTaskCreate(void)
 	/* 创建LED_Task任务 */
   xReturn = xTaskCreate((TaskFunction_t )beepTask, /* 任务入口函数 */
                         (const char*    )"beepTask",/* 任务名字 */
-                        (uint16_t       )256,   /* 任务栈大小 */
+                        (uint16_t       )512,   /* 任务栈大小 */
                         (void*          )NULL,	/* 任务入口函数参数 */
                         (UBaseType_t    )3,	    /* 任务的优先级 */
                         (TaskHandle_t*  )&beepTask_Handle);/* 任务控制块指针 */
@@ -203,20 +201,20 @@ static void AppTaskCreate(void)
                         (const char*    )"CPU_Task",/* 任务名字 */
                         (uint16_t       )512,   /* 任务栈大小 */
                         (void*          )NULL,	/* 任务入口函数参数 */
-                        (UBaseType_t    )5,	    /* 任务的优先级 */
+                        (UBaseType_t    )4,	    /* 任务的优先级 */
                         (TaskHandle_t*  )&CPU_Task_Handle);/* 任务控制块指针 */
   if(pdPASS == xReturn)
     printf("创建CPU_Task任务成功!\r\n");
 	
-//	/* 创建dacTask任务 */
-//  xReturn = xTaskCreate((TaskFunction_t )dacTask, /* 任务入口函数 */
-//                        (const char*    )"dacTask",/* 任务名字 */
-//                        (uint16_t       )256,   /* 任务栈大小 */
-//                        (void*          )NULL,	/* 任务入口函数参数 */
-//                        (UBaseType_t    )4,	    /* 任务的优先级 */
-//                        (TaskHandle_t*  )&dacTask_Handle);/* 任务控制块指针 */
-//  if(pdPASS == xReturn)
-//    printf("创建dacTask任务成功!\r\n");
+	/* 创建dacTask任务 */
+  xReturn = xTaskCreate((TaskFunction_t )dacTask, /* 任务入口函数 */
+                        (const char*    )"dacTask",/* 任务名字 */
+                        (uint16_t       )512,   /* 任务栈大小 */
+                        (void*          )NULL,	/* 任务入口函数参数 */
+                        (UBaseType_t    )4,	    /* 任务的优先级 */
+                        (TaskHandle_t*  )&dacTask_Handle);/* 任务控制块指针 */
+  if(pdPASS == xReturn)
+    printf("创建dacTask任务成功!\r\n");
   
   vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
   
@@ -236,7 +234,7 @@ int main(void)
 	 /* 创建AppTaskCreate任务 */
   xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate,  /* 任务入口函数 */
                         (const char*    )"AppTaskCreate",/* 任务名字 */
-                        (uint16_t       )256,  /* 任务栈大小 */
+                        (uint16_t       )512,  /* 任务栈大小 */
                         (void*          )NULL,/* 任务入口函数参数 */
                         (UBaseType_t    )1, /* 任务的优先级 */
                         (TaskHandle_t*  )&AppTaskCreate_Handle);/* 任务控制块指针 */ 

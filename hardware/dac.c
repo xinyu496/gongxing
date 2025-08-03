@@ -62,65 +62,65 @@ static void dacConfig(void)
 }
 
 
-/**
-  * @brief  配置TIM
-  * @param  无
-  * @retval 无
-  */
-static void DAC_TIM_Config(void)
-{
-	
-	TIM_TimeBaseInitTypeDef    TIM_TimeBaseStructure;
-	
-	/* 使能TIM2时钟，TIM2CLK 为72M */
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-	
-  /* TIM2通用定时器配置 */
- // TIM_TimeBaseStructInit(&TIM_TimeBaseStructure); 
-  TIM_TimeBaseStructure.TIM_Period = (20-1);       									//定时周期 20  
-  TIM_TimeBaseStructure.TIM_Prescaler = 0x0;       							//预分频，不分频 72M / (0+1) = 72M
-  TIM_TimeBaseStructure.TIM_ClockDivision = 0x0;    						//时钟分频系数
-  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  	//向上计数模式
-  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+///**
+//  * @brief  配置TIM
+//  * @param  无
+//  * @retval 无
+//  */
+//static void DAC_TIM_Config(void)
+//{
+//	
+//	TIM_TimeBaseInitTypeDef    TIM_TimeBaseStructure;
+//	
+//	/* 使能TIM2时钟，TIM2CLK 为72M */
+//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+//	
+//  /* TIM2通用定时器配置 */
+// // TIM_TimeBaseStructInit(&TIM_TimeBaseStructure); 
+//  TIM_TimeBaseStructure.TIM_Period = (20-1);       									//定时周期 20  
+//  TIM_TimeBaseStructure.TIM_Prescaler = 0x0;       							//预分频，不分频 72M / (0+1) = 72M
+//  TIM_TimeBaseStructure.TIM_ClockDivision = 0x0;    						//时钟分频系数
+//  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  	//向上计数模式
+//  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
 
-  /* 配置TIM2触发源 */
-  TIM_SelectOutputTrigger(TIM2, TIM_TRGOSource_Update);
+//  /* 配置TIM2触发源 */
+//  TIM_SelectOutputTrigger(TIM2, TIM_TRGOSource_Update);
 
-	/* 使能TIM2 */
-  TIM_Cmd(TIM2, ENABLE);
+//	/* 使能TIM2 */
+//  TIM_Cmd(TIM2, ENABLE);
 
-}
+//}
 
-/**
-  * @brief  配置DMA
-  * @param  无
-  * @retval 无
-  */
-static void DAC_DMA_Config(void)
-{	
-	DMA_InitTypeDef  DMA_InitStructure;
+///**
+//  * @brief  配置DMA
+//  * @param  无
+//  * @retval 无
+//  */
+//static void DAC_DMA_Config(void)
+//{	
+//	DMA_InitTypeDef  DMA_InitStructure;
 
-	/* 使能DMA2时钟 */
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2, ENABLE);
-	
-	/* 配置DMA2 */
-  DMA_InitStructure.DMA_PeripheralBaseAddr = DAC_BASE + 0x20;					//外设数据地址 寄存器 DHR12RD 的地址12位、右对齐、双通道
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)&DualSine12bit ;				//内存数据地址 DualSine12bit
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;											//数据传输方向内存至外设
-  DMA_InitStructure.DMA_BufferSize = POINT_NUM;														//缓存大小为POINT_NUM字节	
-  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;				//外设数据地址固定	
-  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;									//内存数据地址自增
-  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;	//外设数据以字为单位
-  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;					//内存数据以字为单位	
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;													//循环模式
-  DMA_InitStructure.DMA_Priority = DMA_Priority_High;											//高DMA通道优先级
-  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;														//非内存至内存模式	
+//	/* 使能DMA2时钟 */
+//	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2, ENABLE);
+//	
+//	/* 配置DMA2 */
+//  DMA_InitStructure.DMA_PeripheralBaseAddr = DAC_BASE + 0x20;					//外设数据地址 寄存器 DHR12RD 的地址12位、右对齐、双通道
+//  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)&DualSine12bit ;				//内存数据地址 DualSine12bit
+//  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;											//数据传输方向内存至外设
+//  DMA_InitStructure.DMA_BufferSize = POINT_NUM;														//缓存大小为POINT_NUM字节	
+//  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;				//外设数据地址固定	
+//  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;									//内存数据地址自增
+//  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;	//外设数据以字为单位
+//  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;					//内存数据以字为单位	
+//  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;													//循环模式
+//  DMA_InitStructure.DMA_Priority = DMA_Priority_High;											//高DMA通道优先级
+//  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;														//非内存至内存模式	
 
-  DMA_Init(DMA2_Channel4, &DMA_InitStructure);
-	
-  /* 使能DMA2-14通道 */
-  DMA_Cmd(DMA2_Channel4, ENABLE);
-}
+//  DMA_Init(DMA2_Channel4, &DMA_InitStructure);
+//	
+//  /* 使能DMA2-14通道 */
+//  DMA_Cmd(DMA2_Channel4, ENABLE);
+//}
 
 
 /**
@@ -130,7 +130,7 @@ static void DAC_DMA_Config(void)
   */
 void dacInit(void)
 {
-	uint32_t Idx = 0;  
+//	uint32_t Idx = 0;  
 
 	dacConfig();
 //	DAC_TIM_Config();	
