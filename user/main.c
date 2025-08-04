@@ -22,7 +22,7 @@ static TaskHandle_t CPU_Task_Handle = NULL;
 
 static TaskHandle_t dacTask_Handle = NULL;
 
-
+static TaskHandle_t readAdTask_Handle = NULL;
 
 /**********************************************************************
   * @ 函数名  ： LED_Task
@@ -138,7 +138,6 @@ static void CPU_Task(void* parameter)
 static void dacTask(void* parameter)
 {	
 	unsigned short data;
-	u16 temperture,adcvalue;
 	
 	while(1)
 	{
@@ -150,17 +149,57 @@ static void dacTask(void* parameter)
 		
 		DAC_SetChannel1Data(DAC_Align_12b_R , data);
 		
-		printf("dacTask Running,LED1_OFF\r\n");
+		printf("dacTask Running\r\n");
+		
+
+		
+		vTaskDelay(1000);   /* 延时500个tick */		
+	}
+}
+//读取adc任务  秒更新
+static void readAdTask(void* parameter)
+{	
+	u16 temperture,adcvalue;
+	float voltage ;//, average[16] , sum;
+//	static u16 cnt = 0 , cnt1 = 0 , ii  ;
+	
+	while(1)
+	{
+		
 		
 		adcvalue = readAdc2Chennl();
-		printf("dac value is%d\n",adcvalue);//打印dac值
+		voltage = (float)adcvalue / 4096 *3.3 ;
 		
-		temperture = readTempertureValue();
+		printf("dac value is %fV\n",voltage);//打印dac值
+		
+		temperture = readAverageTempertureValue();
+		
+//		sum = 0;
+//		average[cnt] = (float)temperture / 100;
+//		
+//		cnt++;
+//		if(cnt == 16)
+//		{
+//			cnt1 = 16;
+//			cnt = 0;
+//		}
+//		else if(cnt1 != 16)
+//		{
+//			cnt1 = cnt;
+//		}
+//		for(ii = 0; ii < cnt1 ; ii++)
+//		{
+//			sum = average[ii] + sum;
+//		}
+//		temperture = (u16)(sum / cnt1 * 100) ;
+		
+		
 		printf("temp value is %3d ℃\n",temperture);//打印温度值
 		
 		vTaskDelay(1000);   /* 延时500个tick */		
 	}
 }
+
 /***********************************************************************
   * @ 函数名  ： AppTaskCreate
   * @ 功能说明： 为了方便管理，所有的任务创建函数都放在这个函数里面
@@ -222,6 +261,16 @@ static void AppTaskCreate(void)
                         (TaskHandle_t*  )&dacTask_Handle);/* 任务控制块指针 */
   if(pdPASS == xReturn)
     printf("创建dacTask任务成功!\r\n");
+	
+	/* 创建readAdTask任务 */
+  xReturn = xTaskCreate((TaskFunction_t )readAdTask, /* 任务入口函数 */
+                        (const char*    )"readAdTask",/* 任务名字 */
+                        (uint16_t       )512,   /* 任务栈大小 */
+                        (void*          )NULL,	/* 任务入口函数参数 */
+                        (UBaseType_t    )4,	    /* 任务的优先级 */
+                        (TaskHandle_t*  )&readAdTask_Handle);/* 任务控制块指针 */
+  if(pdPASS == xReturn)
+    printf("创建readAdTask任务成功!\r\n");
   
   vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
   

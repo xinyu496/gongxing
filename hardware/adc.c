@@ -180,13 +180,44 @@ void ADCx_Init(void)
 }
 
 //读取单片机温度原始值
-u16 readTempertureValue(void)
+static u16 readTempertureValue(void)
 {
 	u16 data;
 	
 	data = (0x06ee - (u16)(ADC_ConvertedValue)) / 0x05 + 25;
 	
 	return data;
+}
+
+//取温度均值
+u16 readAverageTempertureValue(void)
+{
+	static u16 cnt = 0 , cnt1 = 0 , ii  ;
+	static float  average[averageNum] , sum;
+	u16 temperture;
+	
+	temperture = readTempertureValue();
+	
+	sum = 0;
+	average[cnt] = (float)temperture / 100;
+	
+	cnt++;
+	if(cnt == averageNum)
+	{
+		cnt1 = averageNum;
+		cnt = 0;
+	}
+	else if(cnt1 != averageNum)
+	{
+		cnt1 = cnt;
+	}
+	for(ii = 0; ii < cnt1 ; ii++)
+	{
+		sum = average[ii] + sum;
+	}
+	temperture = (u16)(sum / cnt1 * 100) ;
+	
+	return temperture;
 }
 
 //读取ADC2通道6原始值
